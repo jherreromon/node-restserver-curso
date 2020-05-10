@@ -1,6 +1,9 @@
 //=========================
 //Puerto
 //=========================
+
+//esta variable la maneja heroku.
+//sino existe es q el puerto es 3000 (local no heroku)
 process.env.PORT = process.env.PORT || 3000;
 
 
@@ -22,7 +25,8 @@ if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe';
 } else {
     //cadena para conexion con mongodb atlas
-    urlDB = 'mongodb+srv://juan:88888888@cluster0-icgb5.mongodb.net/cafe';
+    // urlDB = 'mongodb+srv://juan:88888888@cluster0-icgb5.mongodb.net/cafe';
+    urlDB = process.env.MONGO_URI;
 }
 //esta variable, nos la inventamos para asignar urlDB;
 process.env.URLDB = urlDB;
