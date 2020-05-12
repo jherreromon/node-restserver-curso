@@ -14,10 +14,27 @@ process.env.PORT = process.env.PORT || 3000;
 //si la variable NO existe, es q estoy en desarrollo (variable 'dev')
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
+//=========================
+//vencimiento del token
+//=========================
+//60 segundos
+//60 minutos
+//24 horas
+//30 días
+
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+//=========================
+//SEED de autentificacion
+//=========================
+
+process.env.SEED = process.env.SEED || 'este es el seed de desarrollo';
+
 
 //=========================
 //Base de Datos
 //=========================
+
 let urlDB;
 
 if (process.env.NODE_ENV === 'dev') {

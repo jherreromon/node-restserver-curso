@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const Usuario = require('../models/usuarios');
 //undescore se usa así, x conveniencia
 const _ = require('underscore');
+//aplicamos destructuración
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
 
 
 //===========conexión mongoose con la bbdd==============
@@ -17,13 +19,24 @@ const _ = require('underscore');
     console.log('base de datos ONLINE');
 }); */
 
-//en postman hay que meter->localhost:3000/usuario
+//en postman hay que poner->localhost:3000/usuario
 //y se genera una petición get q podemos leer
-app.get('/usuario', function(req, res) {
+//verificaToken, es un middleware
+app.get('/usuario', verificaToken, function(req, res) {
+
+    //devolvemos todo lo q nos llega del usuario en el PAYLOAD.
+    //una vez q pasa x el middleware verificaToken
+    return res.json({
+        usuario: req.usuario,
+        nombre: req.usuario.nombre,
+        email: req.usuario.email
+
+    })
 
     //si nos llega una selección en la solicitud cliente:
     //            {{url}}/usuario?desde=10
     //SINO desde 0
+
     let desde = req.query.desde || 0;
     desde = Number(desde);
 
@@ -67,7 +80,7 @@ app.get('/usuario', function(req, res) {
 });
 
 //app.post()->Se utiliza para crear nuevos registros.
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], function(req, res) {
     //cambiamos res.send()>res.json()
     let body = req.body;
     //creamos una instancia de usuario con todos las propiedades
@@ -107,7 +120,7 @@ app.post('/usuario', function(req, res) {
 });
 //app.put()->Se utiliza para actualizar registros.
 //en este caso, se pasan los datos x url
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     //recogemos en la "id" que nos pide el cliente
     //lo pasamos al "body de la pagina web y mandamos el resultado"
     let id = req.params.id;
@@ -138,7 +151,7 @@ app.put('/usuario/:id', function(req, res) {
 });
 
 //se utilizar para el borrado. registro pasado x param.
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     let id = req.params.id;
     //cambiando el campo estado a "false", se entiende que 

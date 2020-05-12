@@ -10,8 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-//recoge las rutas del usuario
-app.use(require('./routes/usuario'));
+app.use(require('./routes/index'));
 
 //conexion con la base de datos express-> no tira
 /* const run = async() => {
