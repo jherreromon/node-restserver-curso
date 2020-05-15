@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Google Sign-In Demo</title>
+    <!-- Antes de ofrecer nuestro servicion de validación en google
+        hemos tenido q registranos en google y obenter un "id de cliente"(que es el valor de "Google-signIn-Node)->Content-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="317465643987-u6mv2ce5jsi2ts2kf201d03aghb6l5f2.apps.googleusercontent.com">
+
+</head>
+
+<body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signOut()">Sign out</a>
+
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function() {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+
+    <script>
+        //hemos registrado primeramente nuestra pagina en google 
+        //el siguiente paso, es q un cliente se puede validar en nuestro servidor
+        //con su cuenta de google. Primero se comprueba q esté validado en google y
+        //podemos recibir los datos
+
+
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+            //cuando un usuario se valida correctamente, en el servidor
+            var id_token = googleUser.getAuthResponse().id_token;
+
+            console.log(id_token);
+
+            //posteriormente, a través de un HTTPS POST recogemos un "id_token"
+            //este código se manda mediante "ajax" (XMLHttpRequest()). 
+            //lógicamente, esta información se manda DESDE LOS SERVIDORES DE GOOGLE.
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/google');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                console.log('Signed in as: ' + xhr.responseText);
+            };
+            xhr.send('idtoken=' + id_token);
+        }
+    </script>
+
+</body>
+
+</html>

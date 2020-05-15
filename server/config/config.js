@@ -47,3 +47,10 @@ if (process.env.NODE_ENV === 'dev') {
 }
 //esta variable, nos la inventamos para asignar urlDB;
 process.env.URLDB = urlDB;
+
+//=========================
+// Google Client ID
+//=========================
+
+//Este es nuestro "client_id" q permite que podamos registrar nuestro servidor en google.
+process.env.CLIENT_ID = process.env.CLIENT_ID || '317465643987-u6mv2ce5jsi2ts2kf201d03aghb6l5f2.apps.googleusercontent.com';
