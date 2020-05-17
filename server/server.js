@@ -1,6 +1,8 @@
 require('./config/config');
 const express = require('express');
 const mongoose = require('mongoose');
+//incluida esta configuración para findIdByOne
+mongoose.set('useFindAndModify', false);
 const path = require('path');
 
 const bodyParser = require('body-parser');

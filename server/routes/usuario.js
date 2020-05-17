@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt');
-const Usuario = require('../models/usuarios');
+const Usuario = require('../models/usuario');
 //undescore se usa así, x conveniencia
 const _ = require('underscore');
 //aplicamos destructuración
@@ -151,6 +151,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) 
 });
 
 //se utilizar para el borrado. registro pasado x param.
+//solo puede borrar un administrador por eso verificatoken y verificaAdmin_Role
 app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     let id = req.params.id;

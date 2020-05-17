@@ -40,7 +40,7 @@ let verificaToken = (req, res, next) => {
 // ============================
 
 //Creamos un middleware, en el validemos usuarios para
-//PUT(actualizar usuario) y POST(dar de alta usuario) 
+//PUT(actualizar usuario) y POST(dar de alta usuario)  y DELETE(eliminar usuarios)
 let verificaAdmin_Role = (req, res, next) => {
 
     let usuario = req.usuario
