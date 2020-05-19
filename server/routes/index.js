@@ -10,6 +10,10 @@ app.use(require('./login'));
 app.use(require('./categoria'));
 //recoge las rutas del fichero de producto
 app.use(require('./producto'));
+//recoge las rutas del fichero para subir ficheros
+app.use(require('./upload'));
+//código para visualizar imagenes
+app.use(require('./imagenes'));
 
 
 module.exports = app;
